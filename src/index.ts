@@ -2,6 +2,10 @@
 
 import fs from 'fs';
 
+function keyByPoint(i: number, j: number): string {
+  return `${i},${j}`;
+}
+
 function getNeighbours(i: number, j: number, n: number, m: number): number[][] {
   const neighbours: number[][] = Array();
   if (i > 0) neighbours.push([i - 1, j]);
@@ -43,15 +47,14 @@ export function solve(bitmap: number[][], n: number, m: number): number[][] {
     if (!curr) throw new Error('undefined point from queue');
 
     const [i, j] = curr;
-    visited.set(`${i},${j}`, true);
+    visited.set(keyByPoint(i, j), true);
 
     const neighbours: number[][] = getNeighbours(i, j, n, m);
     for (const neigh of neighbours) {
       const [ni, nj] = neigh;
-      if (visited.has(`${i},${j}`)) continue
+      if (visited.has(keyByPoint(ni, nj))) continue
       solution[ni][nj] = Math.min(solution[ni][nj], solution[i][j] + 1);
       queue.push(neigh);
-      // visited.set(`${i},${j}`, true);
     }
   }
 
