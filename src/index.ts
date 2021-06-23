@@ -2,8 +2,19 @@
 
 import fs from 'fs';
 
-function solve(bitmap: any) {
-  return bitmap;
+function getNeighbours(i: number, j: number, n: number, m: number): number[][] {
+  const neighbours: number[][] = Array();
+  if (i > 0) neighbours.push([i - 1, j]);
+  if (i < n - 1) neighbours.push([i + 1, j]);
+  if (j > 0) neighbours.push([i, j - 1]);
+  if (j < m - 1) neighbours.push([i, j + 1]);
+
+  return neighbours;
+}
+
+export function solve(bitmap: number[][], n: number, m: number): number[][] {
+  const solution: number[][] = Array();
+  return solution;
 }
 
 function printResult(result: number[][]) {
@@ -35,7 +46,7 @@ function main() {
       }
       bitmap.push(row);
     }
-    const result = solve(bitmap);
+    const result = solve(bitmap, n, m);
     printResult(result);
     // test cases divider empty row
     currLine++;

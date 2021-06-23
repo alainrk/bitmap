@@ -3,10 +3,60 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.solve = void 0;
 var fs_1 = __importDefault(require("fs"));
-function solve(bitmap, n, m) {
-    return bitmap;
+function getNeighbours(i, j, n, m) {
+    var neighbours = Array();
+    if (i > 0)
+        neighbours.push([i - 1, j]);
+    if (i < n - 1)
+        neighbours.push([i + 1, j]);
+    if (j > 0)
+        neighbours.push([i, j - 1]);
+    if (j < m - 1)
+        neighbours.push([i, j + 1]);
+    return neighbours;
 }
+function solve(bitmap, n, m) {
+    var solution = Array();
+    var visited = new Map();
+    // Init with max distance every point
+    for (var i = 0; i < n; i++) {
+        solution.push((new Array(m)).fill(Infinity));
+    }
+    var queue = [];
+    // Creates a queue with the whites and set to 0 distance from themselves
+    for (var i = 0; i < n; i++) {
+        for (var j = 0; j < m; j++) {
+            if (bitmap[i][j] === 1) {
+                queue.push([i, j]);
+                solution[i][j] = 0;
+            }
+        }
+    }
+    console.log('bitmap', bitmap);
+    while (queue.length) {
+        console.log('queue', queue);
+        console.log('solution', solution);
+        var curr = queue.shift();
+        if (!curr)
+            throw new Error('undefined point from queue');
+        var i = curr[0], j = curr[1];
+        visited.set(i + "," + j, true);
+        var neighbours = getNeighbours(i, j, n, m);
+        for (var _i = 0, neighbours_1 = neighbours; _i < neighbours_1.length; _i++) {
+            var neigh = neighbours_1[_i];
+            var ni = neigh[0], nj = neigh[1];
+            if (visited.has(i + "," + j))
+                continue;
+            solution[ni][nj] = Math.min(solution[ni][nj], solution[i][j] + 1);
+            queue.push(neigh);
+            // visited.set(`${i},${j}`, true);
+        }
+    }
+    return solution;
+}
+exports.solve = solve;
 function printResult(result) {
     for (var _i = 0, result_1 = result; _i < result_1.length; _i++) {
         var row = result_1[_i];
