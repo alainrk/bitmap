@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node src/index.js < test.txt"
+    "start": "tsc && node src/index.js",
+    "dev": "tsc && node src/index.js < test.txt",
+    "test": "tsc && node src/tests.js"
   },
   "author": "Alain Di Chiappari",
   "license": "ISC",
