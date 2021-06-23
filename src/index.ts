@@ -8,9 +8,13 @@ function keyByPoint(i: number, j: number): string {
 
 function getNeighbours(i: number, j: number, n: number, m: number): number[][] {
   const neighbours: number[][] = Array();
+  // up
   if (i > 0) neighbours.push([i - 1, j]);
+  // down
   if (i < n - 1) neighbours.push([i + 1, j]);
+  // left
   if (j > 0) neighbours.push([i, j - 1]);
+  // right
   if (j < m - 1) neighbours.push([i, j + 1]);
 
   return neighbours;
@@ -37,12 +41,7 @@ export function solve(bitmap: number[][], n: number, m: number): number[][] {
     }
   }
 
-  console.log('bitmap', bitmap);
-
   while (queue.length) {
-    console.log('queue', queue);
-    console.log('solution', solution);
-
     const curr = queue.shift();
     if (!curr) throw new Error('undefined point from queue');
 
@@ -53,6 +52,9 @@ export function solve(bitmap: number[][], n: number, m: number): number[][] {
     for (const neigh of neighbours) {
       const [ni, nj] = neigh;
       if (visited.has(keyByPoint(ni, nj))) continue
+      // For this neighbour keep the minimum distance between:
+      //  - the previously calculated one (Infinity at t0)
+      //  - the current distance from a white (0 if white) + 1 to reach it
       solution[ni][nj] = Math.min(solution[ni][nj], solution[i][j] + 1);
       queue.push(neigh);
     }
