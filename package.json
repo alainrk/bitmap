@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc && node src/index.js < test.txt"
   },
   "author": "Alain Di Chiappari",
   "license": "ISC",
